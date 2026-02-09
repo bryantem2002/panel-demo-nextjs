@@ -132,8 +132,8 @@ export function Sidebar() {
                             <Store className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="font-semibold text-lg">Sistema POS</h1>
-                            <p className="text-xs text-white/70">Textil</p>
+                            <h1 className="font-semibold text-lg !text-white">Sistema POS</h1>
+                            <p className="text-xs !text-white/70">Textil</p>
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,7 @@ export function Sidebar() {
                                     )}
                                 >
                                     {item.icon}
-                                    <span>{item.label}</span>
+                                    <span className="!text-inherit">{item.label}</span>
                                 </Link>
                             </li>
                         ))}
@@ -169,8 +169,8 @@ export function Sidebar() {
                             <User className="h-5 w-5" />
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate">{user?.name || "Usuario"}</p>
-                            <p className="text-xs text-white/70 truncate">{user?.role || "Rol"}</p>
+                            <p className="text-sm font-medium truncate !text-white">{user?.name || "Usuario"}</p>
+                            <p className="text-xs truncate !text-white/70">{user?.role || "Rol"}</p>
                         </div>
                     </div>
                     <Button
