@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, AlertCircle } from "lucide-react"
 import {
   Carousel,
   CarouselContent,
@@ -13,11 +14,14 @@ import {
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { loginDemo } from "@/lib/auth"
 
 export function Login() {
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   // Versión del sistema
   const systemVersion = "v1.0.0"
@@ -32,13 +36,21 @@ export function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError(null)
 
-    // Aquí puedes agregar la lógica de autenticación
-    console.log("Login attempt:", { email, password })
+    // Simular delay de red
+    await new Promise(resolve => setTimeout(resolve, 500))
 
-    setTimeout(() => {
+    // Intentar login demo
+    const result = loginDemo(email, password)
+
+    if (result.success) {
+      // Redirigir al dashboard
+      router.push("/dashboard")
+    } else {
+      setError(result.error || "Error al iniciar sesión")
       setIsLoading(false)
-    }, 1000)
+    }
   }
 
   return (
@@ -74,7 +86,7 @@ export function Login() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@ejemplo.com"
+                    placeholder="demo@textilpos.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -94,6 +106,14 @@ export function Login() {
                     required
                   />
                 </div>
+
+                {/* Error message */}
+                {error && (
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                )}
 
                 {/* Login button */}
                 <Button type="submit" className="w-full" disabled={isLoading}>
